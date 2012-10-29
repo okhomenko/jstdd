@@ -6,13 +6,27 @@
 </head><body>
 
   <div class='container'>
-    
+    <div class='odograph'>
+      <div class='hd'>
+        <h3>Odograph</h3>
+      </div>
+
+      <div class='bd'>
+
+      </div>
+    </div>
   </div>
 
   <script src='/js/libs/jquery-1.8.2.js'></script>
-  <script src='/app/odometer.js'></script>
+  <script src='/js/libs/underscore.js'></script>
+  <script src='/app/odograph.js'></script>
   <script>
     (function () {
+
+      var odo = new Odograph(455);
+      odo.render( function (el) {
+        $('.odograph .bd').empty().append(el);
+      });
 
     })();
   </script>
