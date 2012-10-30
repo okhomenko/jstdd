@@ -4,7 +4,9 @@
 
 It have to do next:
 
-- get numeric value
+- get numeric value in constructor
+- set value
+- get value
 - render value
 - count down/up value
 - count down/up on timer

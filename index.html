@@ -23,10 +23,21 @@
   <script>
     (function () {
 
-      var odo = new Odograph(455);
+      var odo = new Odograph(53);
       odo.render( function (el) {
         $('.odograph .bd').empty().append(el);
       });
+
+      odo.start(function () {
+        var decrement = 7;
+        if (odo.getValue() - decrement * 2 <= 0) {
+          odo.stop();
+        } 
+
+        odo.decrease(decrement);
+      }, 100);
+
+      window.odo = odo;
 
     })();
   </script>

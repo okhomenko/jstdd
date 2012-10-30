@@ -3,30 +3,12 @@
 
 
   var Odograph = function (value) {
-  	if (typeof value === 'undefined') {
-  		throw new Error(this.CONST['ERROR_VALUE_IS_NOT_DEFINED']);
-  	}
+    this.setValue(value);
 
-    if (isNaN(value)) {
-      throw new Error(this.CONST['ERROR_VALUE_IS_NOT_NUMERIC']);
-    }
-
-    this.value = parseInt(value, 10);
-
-    if (typeof this.initialize === 'function') {
-      this.initialize.apply(this, arguments);
-    }
-
-    this.trigger('changed:value');
     return this;
   };
 
   Odograph.prototype = {
-
-    CONST: {
-      'ERROR_VALUE_IS_NOT_DEFINED': 'Value must be defined!',
-      'ERROR_VALUE_IS_NOT_NUMERIC': 'Numeric value must be provided!'
-    },
 
     render: function (callback) {
       this.el = $('<div>', { 
@@ -41,21 +23,56 @@
       return this;
     },
 
-    decrease: function (value) {
-      this.value -= (value || 1);
+    update: function () {
+      if (typeof this.el === 'undefined') {
+        this.render();
+      }
 
-      this.trigger('changed:value');
+      this.el.html(this.getValue());
+
+      return this;
+    },
+
+    isValid: function (value) {
+      return !isNaN(value);
+    },
+
+    setValue: function (value) {
+      if (!this.isValid(value)) {
+        throw new Error('Invalid value');
+      }
+
+      this.value = value;
+      this.update();
+    },
+
+    getValue: function () {
+      return this.value;
+    },
+
+    decrease: function (value) {
+      this.setValue(this.value - (value || 1));
+
       return this;
     },
 
     increase: function (value) {
-      this.value += (value || 1);
+      this.setValue(this.value + (value || 1));
 
-      this.trigger('changed:value');
       return this;
+    },
+
+    start: function (fn, interval) {
+      var _this = this;
+      this.timer = setInterval(function () {
+        fn.call(_this);
+      }, interval || 1000);
+    },
+
+    stop: function () {
+      clearInterval(this.timer);
+      delete this.timer;
     }
-
-
 
   };
 
