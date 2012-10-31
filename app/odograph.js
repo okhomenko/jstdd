@@ -1,7 +1,6 @@
 (function (window, $, _) {
   'use strict';
 
-
   var Odograph = function (value) {
     this.setValue(value);
 
@@ -64,6 +63,8 @@
 
     start: function (fn, interval) {
       var _this = this;
+      fn = (typeof fn === 'function') ? fn : function () {};
+
       this.timer = setInterval(function () {
         fn.call(_this);
       }, interval || 1000);
